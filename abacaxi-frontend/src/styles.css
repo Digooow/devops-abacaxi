@@ -23,6 +23,7 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
 
 .cenario-areia {
@@ -30,7 +31,16 @@ body {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 175px;
+  height: 280px;
+  z-index: 2;
+}
+
+.canvas-personagens {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
 }
 
 @keyframes balancarAlga {
@@ -219,8 +229,8 @@ button.btn-idioma.ativo {
 /* ---------- Layout Principal e Cards de Bolha ---------- */
 main {
   max-width: 980px;
-  margin: 28px auto;
-  padding: 0 16px 155px;
+  margin: 24px auto;
+  padding: 0 16px 275px;
 }
 
 main > p {
@@ -293,7 +303,13 @@ input:focus {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding: 16px;
+  padding: 16px 16px 210px;
+}
+
+@media (max-height: 760px) {
+  .login {
+    padding-bottom: 140px;
+  }
 }
 
 .login-topo-idiomas {

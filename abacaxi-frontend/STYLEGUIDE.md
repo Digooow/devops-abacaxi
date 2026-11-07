@@ -45,15 +45,19 @@ Este documento especifica a identidade visual, paleta de cores, tipografia, íco
 
 ---
 
-## 4. Cenário Submarino Interativo (`FundoBiquini.jsx`)
+## 4. Cenário Submarino Interativo (`FundoBiquini.jsx` e `personagensBiquini.js`)
 
-- **Camada Canvas 60fps (`.canvas-biquini`)**:
+- **Camada Canvas de Fundo (`.canvas-biquini`)**:
   - **Raios de sol subaquáticos** oscilando suavemente a partir da superfície.
-  - **Flores do céu da Fenda do Biquíni** girando lentamente com efeito de paralaxe conforme o movimento do mouse.
-  - **Águas-vivas rosa** nadando com propulsão pulsante e desviando suavemente quando o cursor se aproxima.
-  - **Bolhas interativas**: flutuam até a superfície, são empurradas pela correnteza do mouse, estouram ao passar rápido e surgem em rajadas ao clicar na tela (com anéis de ondulação na água).
-- **Camada SVG do Fundo do Mar (`.cenario-areia`)**:
-  - Dunas de areia dourada com algas e corais animados (`@keyframes balancarAlga`), além das silhuetas ilustradas da **Casa de Abacaxi**, do **Moai** e da **Pedra do Patrick**.
+  - **11 Flores do céu da Fenda do Biquíni** girando lentamente com efeito de paralaxe no mouse.
+  - **Cardume de peixes cidadãos** e **6 águas-vivas rosa** nadando e reagindo à aproximação do cursor.
+- **Camada SVG da Vizinhança e Skyline (`.cenario-areia`)**:
+  - **Skyline de Downtown Bikini Bottom**: Prédios metálicos de tubulação com janelas iluminadas e a torre **Sea Needle** ao fundo.
+  - **Vizinhança completa em primeiro plano**: **Redoma da Sandy**, **Rua da Concha** (**Pedra do Patrick**, **Casa Moai do Lula Molusco** e **Casa de Abacaxi do Bob Esponja**), **Barg'N-Mart**, prédios-tubo coloridos, ponto de ônibus, **Siri Cascudo** (armadilha de lagosta) e **Balde de Lixo** (com luva gigante no teto), além de calçada e avenida asfaltada de pista dupla.
+- **Camada Canvas Frontal de Personagens e Trânsito (`.canvas-personagens`)**:
+  - **Personagens animados caminhando na calçada**: **Bob Esponja** (com rede de caçar água-viva), **Patrick Estrela**, **Gary**, **Lula Molusco**, **Seu Siriguejo** (abrindo e fechando as garras no Siri Cascudo) e **Plankton** (saltitando no Balde de Lixo). Passar o mouse ou clicar perto do Bob Esponja ou do Patrick faz eles pularem comemorando!
+  - **Trânsito submarino**: **Barcomóveis** coloridos e o **Ônibus submarino da Fenda do Biquíni** trafegando nas duas faixas e soltando bolhas pelo escapamento.
+  - **Bolhas interativas**: rastro no cursor, estouro de bolhas grandes e rajadas de bolhas com ondulação ao clicar.
 - Possui `pointer-events: none` (escutando eventos passivos em `window`) para nunca bloquear cliques nos formulários ou tabelas.
 
 ---
