@@ -28,38 +28,28 @@ Consulte o guia completo em [`STYLEGUIDE.md`](file:///c:/Users/rodrigo62289216/D
 - Todas as regras visuais devem ser mantidas exclusivamente em [`src/styles.css`](file:///c:/Users/rodrigo62289216/Desktop/devops-abacaxi/abacaxi-frontend/src/styles.css).
 - Não crie arquivos `.module.css` nem estilizações inline repetitivas. Consulte as classes prontas documentadas no [`STYLEGUIDE.md`](file:///c:/Users/rodrigo62289216/Desktop/devops-abacaxi/abacaxi-frontend/STYLEGUIDE.md) (`.card`, `.formulario`, `.tabela`, `.indicadores`, `.login`, `.erro`, `.dica`, `button.excluir`, `button.ativo`).
 
-### 2.2 Paleta de Cores Oficial
-Sempre reutilize as cores do projeto:
-- **`#2e7d32`** (Verde Principal): Header, títulos do login, botões principais de ação (`button`), destaque de números no painel (`.indicadores strong`).
-- **`#1b5e20`** (Verde Escuro): Botão "Sair" do cabeçalho (`.usuario button`).
-- **`#f9c80e`** (Amarelo Abacaxi): Aba ativa no menu (`header nav button.ativo`), com texto `#333`.
-- **`#fdf8e6`** (Creme / Fundo): Cor de fundo geral da página (`body`).
-- **`#ffffff`** (Branco): Fundo de cards (`.card`), inputs e tabelas.
-- **`#333333`** (Texto Primário): Títulos, corpo de texto e inputs.
-- **`#666666`** (Texto Suave): Rótulos de métricas (`span`), mensagens de dica (`.dica`).
-- **`#c62828`** (Vermelho Alerta): Botões de exclusão (`button.excluir`) e mensagens de erro (`.erro`).
-- **`#cccccc` / `#eeeeee`** (Bordas): Bordas de campos de entrada e divisores de tabela.
+### 2.2 Paleta de Cores e Tema Fenda do Biquíni
+Sempre reutilize o tema submarino/Bob Esponja definido no [`STYLEGUIDE.md`](file:///c:/Users/rodrigo62289216/Desktop/devops-abacaxi/abacaxi-frontend/STYLEGUIDE.md):
+- **Oceano Tropical (`#1bc8e8` → `#055280`)**: Gradiente fixo de fundo acompanhado pelo cenário interativo [`src/FundoBiquini.jsx`](file:///c:/Users/rodrigo62289216/Desktop/devops-abacaxi/abacaxi-frontend/src/FundoBiquini.jsx) (flores do céu, bolhas, águas-vivas e fundo de areia com casa de abacaxi).
+- **Amarelo Bob Esponja (`#ffe135` / `#ffbe0b`)**: Botões principais cartoon 3D (`button`), abas ativas (`header nav button.ativo`) e bordas de destaque.
+- **Azul Lagoa (`rgba(6, 68, 112, 0.88)`)**: Header translúcido com `backdrop-filter: blur(10px)`.
+- **Creme Pérola (`rgba(255, 252, 235, 0.92)`)**: Superfície translúcida dos cards (`.card`).
+- **Azul Marinho (`#0b2e4a` / `#074773`)**: Texto principal, labels e cabeçalhos de tabela.
+- **Rosa Patrick (`#ff85a9` → `#f0487c`)** e **Vermelho Coral (`#e63946`)**: Botão "Sair" e ações destrutivas/erros (`button.excluir`, `.erro`).
 
 ### 2.3 Tipografia
-- Fonte única: `font-family: system-ui, sans-serif;`.
-- Use a escala tipográfica padrão:
-  - Títulos: `h1` (`1.3rem` a `1.4rem`), `h2` (`1.1rem`).
-  - Destaques de indicadores: `1.8rem` em negrito.
-  - Inputs e padrão: `1rem`.
-  - Botões: `0.95rem`.
-  - Labels: `0.9rem`.
-  - Dicas e notas: `0.85rem`.
+- Títulos, abas e botões: `font-family: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif;`.
+- Corpo, inputs e tabelas: `font-family: 'Nunito', system-ui, sans-serif;`.
 
-### 2.4 Ícones e Favicon
-- Utilize **emojis nativos UTF-8** para ícones de tela (ex: `🍍`, `📊`, `🚜`, `💰`, `📦`).
-- Caso precise de ícones vetoriais, use SVG inline simples com dimensões e `stroke`/`fill` compatíveis.
+### 2.4 Ícones, Bandeiras e Favicon
+- Utilize emojis nativos pontuais (`🍍`, `🧽`) e **SVG inline** para bandeiras de idioma (`BandeiraBrasil`, `BandeiraEUA`, `BandeiraChina` em [`src/i18n.jsx`](file:///c:/Users/rodrigo62289216/Desktop/devops-abacaxi/abacaxi-frontend/src/i18n.jsx), sempre sem letras no botão).
 
 ### 2.5 Padrão de Botões
 Reutilize as classes e estilos existentes:
-- **Salvar / Submeter / Entrar**: `<button type="submit">Salvar</button>` (verde `#2e7d32`).
-- **Excluir linha**: `<button className="excluir" onClick={...}>Excluir</button>` (vermelho `#c62828`).
+- **Salvar / Submeter / Entrar**: `<button type="submit">Salvar</button>` (amarelo cartoon 3D).
+- **Excluir linha**: `<button className="excluir" onClick={...}>Excluir</button>` (vermelho coral).
 - **Navegação**: `<button className={pagina === chave ? 'ativo' : ''}>` no `header nav`.
-- **Desabilitado**: Propriedade `disabled={carregando}` (já aplica `opacity: 0.6`).
+- **Desabilitado**: Propriedade `disabled={carregando}`.
 
 ---
 

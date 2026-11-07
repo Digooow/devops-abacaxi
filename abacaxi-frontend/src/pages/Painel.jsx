@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react';
 import { api, formatarReais } from '../api.js';
+import { useIdioma } from '../i18n.jsx';
 
 export default function Painel() {
   const [resumo, setResumo] = useState(null);
   const [erro, setErro] = useState('');
+  const { t, idioma } = useIdioma();
 
   useEffect(() => {
     api('/resumo').then(setResumo).catch((err) => setErro(err.message));
   }, []);
 
   if (erro) return <p className="erro">{erro}</p>;
-  if (!resumo) return <p>Carregando...</p>;
+  if (!resumo) return <p>{t('painel.carregando')}</p>;
 
   return (
     <div className="indicadores">
-      <div className="card"><span>Total colhido</span><strong>{resumo.colhido}</strong></div>
-      <div className="card"><span>Total vendido</span><strong>{resumo.vendido}</strong></div>
-      <div className="card"><span>Em estoque</span><strong>{resumo.estoque}</strong></div>
-      <div className="card"><span>Faturamento</span><strong>{formatarReais(resumo.faturamento)}</strong></div>
+      <div className="card"><span>{t('painel.totalColhido')}</span><strong>{resumo.colhido}</strong></div>
+      <div className="card"><span>{t('painel.totalVendido')}</span><strong>{resumo.vendido}</strong></div>
+      <div className="card"><span>{t('painel.emEstoque')}</span><strong>{resumo.estoque}</strong></div>
+      <div className="card"><span>{t('painel.faturamento')}</span><strong>{formatarReais(resumo.faturamento, idioma)}</strong></div>
     </div>
   );
 }

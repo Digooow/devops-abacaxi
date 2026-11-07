@@ -84,7 +84,8 @@ devops-abacaxi/
   - Centralize todas as chamadas HTTP na função `api(caminho, { method, body })`. Ela injeta o `Bearer` token, trata `204` retornando `null`, recarrega a página em `401` (token expirado) e lança `Error(dados.erro)` em falhas.
   - A variável `VITE_API_URL` é embutida **em tempo de build** pelo Vite (`import.meta.env.VITE_API_URL`).
   - Reutilize os utilitários exportados por `src/api.js`: `formatarData` (`AAAA-MM-DD` → `DD/MM/AAAA`), `formatarReais` (`BRL`) e `hoje` (`AAAA-MM-DD`).
-- **Estilização (`src/styles.css`)**: Mantenha os estilos centralizados em `src/styles.css`, reutilizando as classes existentes (`.card`, `.formulario`, `.tabela`, `.indicadores`, `.login`, `.erro`, `.dica`, `button.excluir`, `button.ativo`) e a identidade visual da fazenda (`#2e7d32`, `#f9c80e`, `#fdf8e6`).
+- **Estilização e Cenário (`src/styles.css`, `src/FundoBiquini.jsx`)**: Mantenha os estilos centralizados em `src/styles.css` seguindo o tema submarino **Fenda do Biquíni / Bob Esponja** documentado em `abacaxi-frontend/STYLEGUIDE.md`, reutilizando as classes existentes (`.card`, `.formulario`, `.tabela`, `.indicadores`, `.login`, `.erro`, `.dica`, `button.excluir`, `button.ativo`).
+- **Internacionalização (`src/i18n.jsx`)**: Suporte nativo a Português (`pt`, padrão), Inglês (`en`) e Chinês (`zh`), com seletor de bandeiras em SVG inline sem texto e persistência em `localStorage` (`idioma`).
 - **Cold Start no Render Free**: O Web Service gratuito do Render hiberna após 15 minutos sem uso e leva ~1 minuto para acordar (por isso `Login.jsx` exibe `.dica` durante o carregamento).
 
 ---

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { api, formatarData, formatarReais, hoje } from '../api.js';
+import { useIdioma } from '../i18n.jsx';
 
 export default function Vendas() {
   const [vendas, setVendas] = useState([]);
   const [form, setForm] = useState({ data: hoje(), quantidade: '', preco_unitario: '', cliente: '' });
   const [erro, setErro] = useState('');
+  const { t, idioma } = useIdioma();
 
   const carregar = () => api('/vendas').then(setVendas).catch((err) => setErro(err.message));
   useEffect(() => { carregar(); }, []);
@@ -41,44 +43,51 @@ export default function Vendas() {
   return (
     <>
       <form className="card formulario" onSubmit={salvar}>
-        <h2>Registrar venda</h2>
+        <h2>{t('vendas.tituloForm')}</h2>
         <label>
-          Data
+          {t('vendas.data')}
           <input type="date" value={form.data} onChange={(e) => setForm({ ...form, data: e.target.value })} required />
         </label>
         <label>
-          Quantidade
+          {t('vendas.quantidade')}
           <input type="number" min="1" value={form.quantidade} onChange={(e) => setForm({ ...form, quantidade: e.target.value })} required />
         </label>
         <label>
-          Preço unitário (R$)
+          {t('vendas.precoUnitario')}
           <input type="number" min="0.01" step="0.01" value={form.preco_unitario} onChange={(e) => setForm({ ...form, preco_unitario: e.target.value })} required />
         </label>
         <label>
-          Cliente
+          {t('vendas.cliente')}
           <input value={form.cliente} onChange={(e) => setForm({ ...form, cliente: e.target.value })} />
         </label>
-        <button type="submit">Salvar</button>
+        <button type="submit">{t('vendas.salvar')}</button>
       </form>
       {erro && <p className="erro">{erro}</p>}
 
       <div className="card tabela">
         <table>
           <thead>
-            <tr><th>Data</th><th>Cliente</th><th>Qtd.</th><th>Preço un.</th><th>Total</th><th></th></tr>
+            <tr>
+              <th>{t('vendas.thData')}</th>
+              <th>{t('vendas.thCliente')}</th>
+              <th>{t('vendas.thQuantidade')}</th>
+              <th>{t('vendas.thPreco')}</th>
+              <th>{t('vendas.thTotal')}</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody>
             {vendas.map((v) => (
               <tr key={v.id}>
-                <td>{formatarData(v.data)}</td>
+                <td>{formatarData(v.data, idioma)}</td>
                 <td>{v.cliente}</td>
                 <td>{v.quantidade}</td>
-                <td>{formatarReais(v.preco_unitario)}</td>
-                <td>{formatarReais(v.quantidade * Number(v.preco_unitario))}</td>
-                <td><button className="excluir" onClick={() => excluir(v.id)}>Excluir</button></td>
+                <td>{formatarReais(v.preco_unitario, idioma)}</td>
+                <td>{formatarReais(v.quantidade * Number(v.preco_unitario), idioma)}</td>
+                <td><button className="excluir" onClick={() => excluir(v.id)}>{t('vendas.excluir')}</button></td>
               </tr>
             ))}
-            {vendas.length === 0 && <tr><td colSpan="6">Nenhuma venda registrada.</td></tr>}
+            {vendas.length === 0 && <tr><td colSpan="6">{t('vendas.vazio')}</td></tr>}
           </tbody>
         </table>
       </div>

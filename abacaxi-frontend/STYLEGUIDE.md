@@ -1,169 +1,83 @@
-# 🎨 Guia de Estilo Visual e Design System — Fazenda de Abacaxis (Frontend)
+# 🎨 Guia de Estilo Visual e Design System — Fazenda de Abacaxis (Tema Fenda do Biquíni)
 
-Este documento especifica a identidade visual, paleta de cores, tipografia, ícones, botões e padrões de componentes do **abacaxi-frontend**. Ele serve como fonte de verdade para manter consistência visual e simplicidade no desenvolvimento da interface.
+Este documento especifica a identidade visual, paleta de cores, tipografia, ícones, botões, cenário interativo e componentes do **abacaxi-frontend**.
 
 ---
 
 ## 1. Identidade e Filosofia Visual
 
-- **Tema**: Fazenda tropical / Agronegócio sustentável (Abacaxi).
-- **Abordagem**: **CSS Puro e Leve**. Sem Tailwind, sem CSS-in-JS, sem frameworks pesados de UI (como MUI, Chakra ou Bootstrap).
-- **Arquivo Único de Estilos**: Todas as regras globais e classes utilitárias vivem em [`src/styles.css`](file:///c:/Users/rodrigo62289216/Desktop/devops-abacaxi/abacaxi-frontend/src/styles.css).
-- **Box Sizing**: Reset universal `* { box-sizing: border-box; }`.
+- **Tema**: **Fenda do Biquíni / Bob Esponja** — unindo o universo submarino do abacaxi mais famoso do mar com a gestão da Fazenda de Abacaxis.
+- **Abordagem**: **CSS Puro + Canvas HTML5 + SVG Inline** (zero frameworks pesados de UI ou pacotes extras de ícones/animações).
+- **Arquivos Visuais Centrais**:
+  - [`src/styles.css`](file:///c:/Users/rodrigo62289216/Desktop/devops-abacaxi/abacaxi-frontend/src/styles.css) — todas as regras globais, paleta e componentes.
+  - [`src/FundoBiquini.jsx`](file:///c:/Users/rodrigo62289216/Desktop/devops-abacaxi/abacaxi-frontend/src/FundoBiquini.jsx) — cenário subaquático animado e interativo ao mouse/clique.
 
 ---
 
 ## 2. Paleta de Cores
 
-As cores refletem os tons naturais de uma fazenda de abacaxis: verde folha, amarelo fruto maduro e fundo acolhedor de palha/creme.
-
-| Nome da Cor | Hex | Uso Principal | Exemplo Visual |
-|---|---|---|---|
-| **Verde Principal (Plantation Green)** | `#2e7d32` | Header, botões primários, títulos de destaque, valores do painel | `rgb(46, 125, 50)` |
-| **Verde Escuro (Dark Forest)** | `#1b5e20` | Botão "Sair", estados de foco ou contraste elevado | `rgb(27, 94, 32)` |
-| **Amarelo Abacaxi (Gold Pineapple)** | `#f9c80e` | Botão de navegação ativo (`nav button.ativo`), destaque | `rgb(249, 200, 14)` |
-| **Fundo Creme (Warm Sand)** | `#fdf8e6` | Background da página (`body`) | `rgb(253, 248, 230)` |
-| **Branco Puro (Surface White)** | `#ffffff` | Fundo de Cards (`.card`), inputs e tabelas | `rgb(255, 255, 255)` |
-| **Texto Principal (Charcoal)** | `#333333` | Textos gerais, títulos e texto de botões ativos | `rgb(51, 51, 51)` |
-| **Texto Suave / Muted (Slate Gray)** | `#666666` | Rótulos de métricas, textos auxiliares (`.dica`) | `rgb(102, 102, 102)` |
-| **Vermelho Alerta (Crimson Danger)** | `#c62828` | Botões de exclusão (`button.excluir`), mensagens de erro (`.erro`) | `rgb(198, 40, 40)` |
-| **Bordas Sutis (Light Gray)** | `#cccccc` / `#eeeeee` | Bordas de inputs (`#ccc`) e divisórias de linhas da tabela (`#eee`) | Linhas de separação |
+| Nome da Cor | Valor | Uso Principal |
+|---|---|---|
+| **Oceano Tropical (Gradiente)** | `#1bc8e8` → `#0ea2d4` → `#0774a8` → `#055280` | Fundo subaquático fixo da página (`body`) |
+| **Amarelo Bob Esponja** | `#ffe135` / `#ffbe0b` (`#c28600` sombra 3D) | Botões principais, abas ativas, títulos e bordas de destaque |
+| **Azul Lagoa Profundo** | `rgba(6, 68, 112, 0.88)` → `rgba(11, 110, 166, 0.86)` | Header translúcido com `backdrop-filter: blur(10px)` |
+| **Creme Pérola / Bolha** | `rgba(255, 252, 235, 0.92)` | Superfície dos Cards (`.card`) sobre o oceano |
+| **Azul Marinho Texto** | `#0b2e4a` / `#074773` | Texto principal de alto contraste, labels e cabeçalhos de tabela |
+| **Laranja Casa de Abacaxi** | `#ff8500` / `#ff7b00` | Título do login, destaque do indicador de colheita e casa no cenário |
+| **Rosa Patrick / Água-Viva** | `#ff85a9` → `#f0487c` | Botão "Sair" no cabeçalho e águas-vivas do fundo |
+| **Vermelho Coral (Alerta)** | `#ff758f` → `#e63946` | Botão de exclusão (`button.excluir`) e caixa de erro (`.erro`) |
+| **Areia Dourada** | `#f6d87e` / `#e7c15a` | Dunas de areia no rodapé submarino (`.cenario-areia`) |
 
 ---
 
 ## 3. Tipografia
 
-- **Família Tipográfica**:
+- **Títulos e Botões (`Fredoka`)**:
   ```css
-  font-family: system-ui, sans-serif;
+  font-family: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif;
   ```
-  Utiliza as fontes nativas do sistema operacional (San Francisco no macOS/iOS, Segoe UI no Windows, Roboto no Android/Linux), garantindo renderização instantânea sem download de fontes externas.
-
-- **Hierarquia de Tamanhos e Pesos**:
-  | Elemento | Tamanho | Peso | Cor | Observação |
-  |---|---|---|---|---|
-  | **Título do Login** | `1.4rem` | Negrito | `#2e7d32` | Centralizado |
-  | **Título do Header** | `1.3rem` | Negrito | `#ffffff` | Sem margens |
-  | **Título de Seção / Form** | `1.1rem` | Negrito | `#333333` | Largura 100% no formulário |
-  | **Número de Indicador** | `1.8rem` | Negrito (`strong`) | `#2e7d32` | Destaque do painel |
-  | **Texto dos Inputs** | `1rem` | Normal | `#333333` | Padding confortável |
-  | **Botões** | `0.95rem` | Normal | `#ffffff` / `#333` | Alinhamento compacto |
-  | **Labels / Rótulos** | `0.9rem` | Normal | `#333333` / `#666` | Em coluna com o input |
-  | **Dica / Texto de Ajuda** | `0.85rem` | Normal | `#666666` | Alinhamento central |
-
----
-
-## 4. Ícones e Elementos Gráficos
-
-- **Zero Bibliotecas Externas**: Não instalar bibliotecas como Lucide, Heroicons, FontAwesome ou Material Icons.
-- **Uso de Emojis Nativos**: Ícones contextuais devem usar caracteres Unicode / Emojis padrão para preservar zero-dependency:
-  - 🍍 `U+1F34D` — Símbolo do projeto (Logotipo no header, tela de login, título).
-  - Outros emojis contextuais recomendados:
-    - 📊 Painel / Dashboard
-    - 🚜 Colheitas
-    - 💰 Vendas / Faturamento
-    - 📦 Estoque
-- **Favicon Dinâmico**:
-  Gerado diretamente no [`index.html`](file:///c:/Users/rodrigo62289216/Desktop/devops-abacaxi/abacaxi-frontend/index.html) com SVG inline base64/data URI:
-  ```html
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍍</text></svg>" />
-  ```
-
----
-
-## 5. Botões e Ações
-
-Todos os botões compartilham as propriedades base:
-```css
-button {
-  background: #2e7d32;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 14px;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
-```
-
-### Variantes de Botão:
-
-1. **Botão Primário (Padrão)**:
-   - Uso: "Entrar", "Salvar", ações principais de submissão.
-   - Background: `#2e7d32` | Texto: `#ffffff` | Sem borda.
-   - Desabilitado (`:disabled`): `opacity: 0.6; cursor: not-allowed;`.
-
-2. **Botão de Navegação Inativo (`header nav button`)**:
-   - Uso: Abas no cabeçalho (Painel, Colheitas, Vendas).
-   - Background: `transparent` | Borda: `1px solid #ffffff` | Texto: `#ffffff`.
-
-3. **Botão de Navegação Ativo (`header nav button.ativo`)**:
-   - Uso: Aba atualmente aberta.
-   - Background: `#f9c80e` | Borda: `1px solid #f9c80e` | Texto: `#333333`.
-
-4. **Botão Secundário / Sair (`.usuario button`)**:
-   - Uso: Desconectar usuário no topo direito.
-   - Background: `#1b5e20` | Texto: `#ffffff` | Margem esquerda: `8px`.
-
-5. **Botão Destrutivo / Excluir (`button.excluir`)**:
-   - Uso: Excluir linha de colheita ou venda na tabela.
-   - Background: `#c62828` | Texto: `#ffffff` | Padding reduzido: `4px 10px`.
-
----
-
-## 6. Componentes e Estrutura de Layout
-
-### 6.1 Header de Navegação
-```html
-<header>
-  <h1>🍍 Fazenda de Abacaxis</h1>
-  <nav>
-    <button class="ativo">Painel</button>
-    <button>Colheitas</button>
-    <button>Vendas</button>
-  </nav>
-  <div class="usuario">
-    admin <button>Sair</button>
-  </div>
-</header>
-```
-- Barra horizontal com `display: flex; flex-wrap: wrap; gap: 16px; padding: 12px 24px; background: #2e7d32;`.
-
-### 6.2 Container Central (`main`)
-- `max-width: 960px; margin: 24px auto; padding: 0 16px;`.
-
-### 6.3 Card (`.card`)
-- Superfície padrão para formulários, tabelas e métricas.
-- `background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); margin-bottom: 16px;`.
-
-### 6.4 Formulários (`.formulario`)
-- `display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;`.
-- Labels organizam o campo em coluna (`display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem;`).
-- Inputs têm `padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;`.
-
-### 6.5 Tabelas de Dados (`.tabela`)
-- Wrapper com `.tabela` para rolagem horizontal em telas pequenas (`overflow-x: auto`).
-- `table` ocupa `width: 100%`, `border-collapse: collapse`.
-- Células `th` e `td` com `padding: 8px; text-align: left; border-bottom: 1px solid #eee;`.
-
-### 6.6 Painel de Indicadores (`.indicadores`)
-- Grid responsivo que se adapta automaticamente:
+  Fonte arredondada estilo cartoon para `h1`, `h2`, `th`, valores de indicadores e botões.
+- **Corpo e Dados (`Nunito`)**:
   ```css
-  .indicadores {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px;
-  }
+  font-family: 'Nunito', system-ui, sans-serif;
   ```
-- Cada indicador é um `.card` contendo:
-  ```html
-  <div class="card">
-    <span>Total colhido</span>
-    <strong>150</strong>
-  </div>
-  ```
+  Alta legibilidade em tabelas, formulários e números.
 
-### 6.7 Estados e Mensagens
-- **Erro (`.erro`)**: `color: #c62828;` (abaixo de formulários ou telas de login).
-- **Dica informativa (`.dica`)**: `color: #666; font-size: 0.85rem; text-align: center;` (ex: aviso de cold start no Render).
-- **Carregando**: `<p>Carregando...</p>` ou texto no próprio botão (`{carregando ? 'Entrando...' : 'Entrar'}`).
+---
+
+## 4. Cenário Submarino Interativo (`FundoBiquini.jsx`)
+
+- **Camada Canvas 60fps (`.canvas-biquini`)**:
+  - **Raios de sol subaquáticos** oscilando suavemente a partir da superfície.
+  - **Flores do céu da Fenda do Biquíni** girando lentamente com efeito de paralaxe conforme o movimento do mouse.
+  - **Águas-vivas rosa** nadando com propulsão pulsante e desviando suavemente quando o cursor se aproxima.
+  - **Bolhas interativas**: flutuam até a superfície, são empurradas pela correnteza do mouse, estouram ao passar rápido e surgem em rajadas ao clicar na tela (com anéis de ondulação na água).
+- **Camada SVG do Fundo do Mar (`.cenario-areia`)**:
+  - Dunas de areia dourada com algas e corais animados (`@keyframes balancarAlga`), além das silhuetas ilustradas da **Casa de Abacaxi**, do **Moai** e da **Pedra do Patrick**.
+- Possui `pointer-events: none` (escutando eventos passivos em `window`) para nunca bloquear cliques nos formulários ou tabelas.
+
+---
+
+## 5. Ícones e Bandeiras
+
+- **Zero Bibliotecas Externas**: Sem pacotes de ícones NPM.
+- **Emojis Nativos**: `🍍` (marca principal e favicon SVG inline no `index.html`) e `🧽` (badge de usuário no header).
+- **Bandeiras de Idioma em SVG Inline ([`src/i18n.jsx`](file:///c:/Users/rodrigo62289216/Desktop/devops-abacaxi/abacaxi-frontend/src/i18n.jsx))**:
+  - Componentes vetoriais `BandeiraBrasil`, `BandeiraEUA` e `BandeiraChina` (`28×20px`), exibindo **somente as bandeiras sem siglas de texto** (evitando que o Windows renderize letras `BR`/`US`/`CN`).
+
+---
+
+## 6. Botões e Componentes
+
+1. **Botão Primário Cartoon 3D (`button`)**:
+   - Gradiente amarelo `#ffe94d` → `#ffbe0b`, texto `#073659`, `border-radius: 12px`, sombra sólida `0 4px 0 #c28600` com efeito de pressão no `:active`.
+2. **Abas de Navegação (`header nav button` / `.ativo`)**:
+   - Pílulas (`border-radius: 999px`) translúcidas quando inativas e amarelo vibrante com sombra 3D quando `.ativo`.
+3. **Botão Sair (`.usuario button`)**:
+   - Pílula rosa `#ff85a9` → `#f0487c` com sombra `#a8204d`.
+4. **Botão Excluir (`button.excluir`)**:
+   - Gradiente coral `#ff758f` → `#e63946` com sombra `#9e1924`.
+5. **Cards de Bolha (`.card`)**:
+   - Fundo creme translúcido `rgba(255, 252, 235, 0.92)` com `backdrop-filter: blur(10px)`, borda branca `3px`, `border-radius: 20px` e sombra cartoon `0 8px 0 rgba(5, 52, 89, 0.22)`.
+6. **Seletor de Idiomas (`.seletor-idiomas`)**:
+   - Cápsula no topo com as 3 bandeiras SVG, persistindo a escolha em `localStorage` (`idioma`).

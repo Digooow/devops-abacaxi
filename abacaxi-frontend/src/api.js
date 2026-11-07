@@ -15,8 +15,9 @@ export async function api(caminho, { method = 'GET', body } = {}) {
   });
 
   if (resposta.status === 401 && token) {
-    // token expirou: volta para o login
+    // token expirou: volta para o login preservando preferência de idioma
     localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
     window.location.reload();
   }
   if (resposta.status === 204) return null;
@@ -26,7 +27,16 @@ export async function api(caminho, { method = 'GET', body } = {}) {
   return dados;
 }
 
-export const formatarData = (data) => data.split('-').reverse().join('/');
-export const formatarReais = (valor) =>
-  Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+export const formatarData = (data, idioma = localStorage.getItem('idioma') || 'pt') => {
+  if (!data) return '';
+  const [ano, mes, dia] = data.split('-');
+  if (idioma === 'en') return `${mes}/${dia}/${ano}`;
+  if (idioma === 'zh') return `${ano}/${mes}/${dia}`;
+  return `${dia}/${mes}/${ano}`;
+};
+
+export const formatarReais = (valor, idioma = localStorage.getItem('idioma') || 'pt') => {
+  const locale = idioma === 'en' ? 'en-US' : idioma === 'zh' ? 'zh-CN' : 'pt-BR';
+  return Number(valor).toLocaleString(locale, { style: 'currency', currency: 'BRL' });
+};
 export const hoje = () => new Date().toISOString().slice(0, 10);
