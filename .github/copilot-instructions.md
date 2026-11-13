@@ -12,15 +12,18 @@ Este repositório (**Fazenda de Abacaxis**) é um **projeto didático** criado p
 
 ## Estrutura do Repositório
 
-**Não há `package.json` na raiz.** O repositório contém dois projetos Node.js (`>=20`) independentes, publicados como serviços separados no Render (usando a configuração *Root Directory*):
+O repositório possui um `package.json` na raiz apenas como orquestrador local (`npm run dev` via `dev.js`, zero dependências externas), enquanto **`abacaxi-backend/`** e **`abacaxi-frontend/`** permanecem dois projetos Node.js (`>=20`) independentes para publicação separada no Render (usando a configuração *Root Directory*):
 
 ```text
 devops-abacaxi/
+├── package.json              # Atalhos locais na raiz: npm run dev, setup, build
+├── dev.js                    # Orquestrador local (sobe MySQL/Docker, backend e frontend juntos)
 ├── abacaxi-backend/          # Web Service no Render — API REST (CommonJS)
 │   ├── docker-compose.yml    # MySQL 8.0 local (porta 3306, banco fazenda_abacaxi)
 │   ├── .env.example          # Template de variáveis de ambiente da API
 │   └── src/
 │       ├── server.js         # Entrypoint, middlewares, sync do banco e seed do admin
+│       ├── swagger.js        # Especificação OpenAPI 3.0 servida em /docs e /docs.json
 │       ├── database.js       # Seleção automática: PostgreSQL (DATABASE_URL) ou MySQL (DB_*)
 │       ├── models.js         # Modelos Sequelize: Usuario, Colheita, Venda
 │       ├── estoque.js        # Cálculo dinâmico de estoque (colhido - vendido)
@@ -65,7 +68,7 @@ devops-abacaxi/
 - **Formato padrão de erro**: Sempre retorne JSON no formato `{ erro: 'Mensagem em português' }` com o status HTTP adequado (`400`, `401`, `404`, `500`). O frontend (`src/api.js`) lê especificamente a propriedade `dados.erro`.
 - **Remoções (`DELETE`)**: Retorne `204 No Content` (`res.status(204).end()`).
 - **Autenticação e Segurança**:
-  - Rotas públicas: `GET /` (healthcheck usado pelo Render) e `POST /auth/login` (retorna `{ token, usuario }`, expiração de `8h`).
+  - Rotas públicas: `GET /` (healthcheck usado pelo Render), `GET /docs` / `GET /docs.json` (Swagger/OpenAPI em `src/swagger.js`) e `POST /auth/login` (retorna `{ token, usuario }`, expiração de `8h`).
   - Demais rotas (`/colheitas`, `/vendas`, `/resumo`) exigem o middleware `src/middleware/auth.js`.
   - CORS liberado via `process.env.FRONTEND_URL` (sempre **sem barra `/` no final**).
 
@@ -92,7 +95,20 @@ devops-abacaxi/
 
 ## Fluxo de Desenvolvimento e Comandos
 
-Sempre execute comandos `npm` **dentro** de `abacaxi-backend/` ou `abacaxi-frontend/` (nunca na raiz):
+Para desenvolvimento local completo a partir da raiz (`devops-abacaxi/`):
+
+```bash
+# Roda Frontend + Backend juntos (e sobe MySQL via Docker se disponível)
+npm run dev
+
+# Apenas prepara .env e instala dependências nas duas pastas
+npm run setup
+
+# Gera o build de produção do Frontend
+npm run build
+```
+
+Ou execute os serviços individualmente dentro de `abacaxi-backend/` ou `abacaxi-frontend/`:
 
 ```bash
 # Subir banco MySQL local (Docker)

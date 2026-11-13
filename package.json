@@ -1,0 +1,14 @@
+{
+  "name": "devops-abacaxi",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Projeto didático Fazenda de Abacaxis (frontend + backend)",
+  "scripts": {
+    "dev": "node dev.js",
+    "setup": "node dev.js --setup",
+    "build": "npm --prefix abacaxi-frontend run build"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

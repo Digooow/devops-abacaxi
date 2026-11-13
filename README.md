@@ -62,7 +62,17 @@ cd devops-abacaxi
 
 ## Rodando localmente
 
-Abra **dois terminais**, um para cada parte:
+### Jeito rápido (um único terminal na raiz)
+
+Com o Docker Desktop (ou MySQL local) aberto, execute na raiz do projeto (`devops-abacaxi/`):
+
+```bash
+npm run dev
+```
+
+Isso cria os `.env` e instala as dependências se necessário, sobe o MySQL pelo Docker (`docker compose up -d`), inicia a API em http://localhost:3001 e inicia o site em http://localhost:5173.
+
+### Ou em dois terminais separados
 
 | Terminal 1 — API | Terminal 2 — Site |
 |---|---|

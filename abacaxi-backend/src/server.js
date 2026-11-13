@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 const { sequelize, Usuario } = require('./models');
 const auth = require('./middleware/auth');
 
@@ -15,6 +17,17 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.json({ status: 'ok', mensagem: 'API da Fazenda de Abacaxis 🍍' });
 });
+
+// Documentação interativa Swagger / OpenAPI
+app.get('/docs.json', (req, res) => res.json(swaggerSpec));
+app.use(
+  '/docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    customSiteTitle: 'API Fazenda de Abacaxis — Swagger 🍍',
+    swaggerOptions: { persistAuthorization: true },
+  })
+);
 
 app.use('/auth', require('./routes/auth'));
 
@@ -46,7 +59,10 @@ async function iniciar() {
   await criarAdmin();
 
   const port = process.env.PORT || 3001;
-  app.listen(port, () => console.log(`API rodando na porta ${port}`));
+  app.listen(port, () => {
+    console.log(`API rodando na porta ${port}`);
+    console.log(`Swagger disponível em http://localhost:${port}/docs`);
+  });
 }
 
 iniciar().catch((err) => {

@@ -54,6 +54,7 @@ Estas instruções aplicam-se a qualquer alteração ou criação de código den
 
 ### 4.3 Autenticação e Rotas Protegidas
 - Rota pública de healthcheck: `GET /` -> `{ status: 'ok', mensagem: 'API da Fazenda de Abacaxis 🍍' }`.
+- Documentação Swagger / OpenAPI: `GET /docs` (Swagger UI) e `GET /docs.json`, definidos em [`src/swagger.js`](file:///c:/Users/rodrigo62289216/Desktop/devops-abacaxi/abacaxi-backend/src/swagger.js). Ao criar ou alterar rotas, atualize `src/swagger.js`.
 - Rota pública de login: `POST /auth/login` -> `{ token, usuario }` (token JWT assinado com `JWT_SECRET`, expira em `8h`).
 - Rotas protegidas devem incluir o middleware `auth`:
   ```javascript

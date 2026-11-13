@@ -28,6 +28,7 @@ As **tabelas são criadas sozinhas** quando a API inicia (`sequelize.sync()`). O
 ```
 src/
 ├── server.js          # inicia a API, cria tabelas e o usuário admin
+├── swagger.js         # especificação OpenAPI 3.0 das rotas
 ├── database.js        # escolhe MySQL ou PostgreSQL
 ├── models.js          # tabelas: usuarios, colheitas, vendas
 ├── estoque.js         # cálculo do estoque
@@ -40,6 +41,8 @@ src/
 | Método | Rota | Login? | Descrição |
 |---|---|---|---|
 | GET | `/` | não | Testa se a API está no ar |
+| GET | `/docs` | não | Documentação interativa **Swagger UI** |
+| GET | `/docs.json` | não | Especificação OpenAPI 3.0 em JSON |
 | POST | `/auth/login` | não | `{ usuario, senha }` → retorna `{ token }` |
 | GET / POST | `/colheitas` | sim | Lista / cadastra `{ data, quantidade, observacao }` |
 | DELETE | `/colheitas/:id` | sim | Exclui uma colheita |
