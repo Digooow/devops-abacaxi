@@ -14,24 +14,6 @@ import {
   desenharSiriguejo,
 } from './personagensBiquini.js';
 
-const CORES_FLORES = [
-  { preenchimento: 'rgba(122, 245, 255, 0.24)', borda: 'rgba(168, 252, 255, 0.48)' },
-  { preenchimento: 'rgba(255, 138, 192, 0.24)', borda: 'rgba(255, 182, 217, 0.48)' },
-  { preenchimento: 'rgba(255, 232, 99, 0.24)', borda: 'rgba(255, 243, 158, 0.48)' },
-  { preenchimento: 'rgba(196, 148, 255, 0.22)', borda: 'rgba(220, 190, 255, 0.45)' },
-  { preenchimento: 'rgba(130, 255, 198, 0.22)', borda: 'rgba(178, 255, 220, 0.45)' },
-  { preenchimento: 'rgba(255, 168, 108, 0.22)', borda: 'rgba(255, 205, 162, 0.45)' },
-];
-
-const PALETA_PEIXES = [
-  ['#ff9f1c', '#ffbf69'],
-  [COR_ROSA_AGUA_VIVA, '#ffc2d4'],
-  ['#a7e838', '#38b000'],
-  ['#ffd166', '#ef476f'],
-  ['#9b5de5', '#f15bb5'],
-  ['#00f5d4', '#00bbf9'],
-];
-
 const TIPO_BARCO = 'barco';
 const COR_VERMELHO = '#e63946';
 const COR_OURO = '#ffd166';
@@ -49,6 +31,24 @@ const COR_TELHADO_VERDE = '#1b4332';
 const COR_ROSA_AGUA_VIVA = '#ff6b9d';
 const COR_VIDRO_MOLLUSCO = '#9be7ff';
 const TRACO_ARREDONDADO = 'round';
+
+const CORES_FLORES = [
+  { preenchimento: 'rgba(122, 245, 255, 0.24)', borda: 'rgba(168, 252, 255, 0.48)' },
+  { preenchimento: 'rgba(255, 138, 192, 0.24)', borda: 'rgba(255, 182, 217, 0.48)' },
+  { preenchimento: 'rgba(255, 232, 99, 0.24)', borda: 'rgba(255, 243, 158, 0.48)' },
+  { preenchimento: 'rgba(196, 148, 255, 0.22)', borda: 'rgba(220, 190, 255, 0.45)' },
+  { preenchimento: 'rgba(130, 255, 198, 0.22)', borda: 'rgba(178, 255, 220, 0.45)' },
+  { preenchimento: 'rgba(255, 168, 108, 0.22)', borda: 'rgba(255, 205, 162, 0.45)' },
+];
+
+const PALETA_PEIXES = [
+  ['#ff9f1c', '#ffbf69'],
+  [COR_ROSA_AGUA_VIVA, '#ffc2d4'],
+  ['#a7e838', '#38b000'],
+  ['#ffd166', '#ef476f'],
+  ['#9b5de5', '#f15bb5'],
+  ['#00f5d4', '#00bbf9'],
+];
 
 const LARGURA_VIEWBOX = 1440;
 const ALTURA_VIEWBOX = 280;
