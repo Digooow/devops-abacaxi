@@ -9,8 +9,9 @@ const { sequelize, Usuario } = require('./models');
 const auth = require('./middleware/auth');
 
 const app = express();
+app.disable('x-powered-by');
 
-app.use(cors({ origin: process.env.FRONTEND_URL || '*' }));
+app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173' }));
 app.use(express.json());
 
 // Rota pública para testar se a API está no ar (usada também pelo Render)
@@ -38,16 +39,22 @@ app.use('/resumo', auth, require('./routes/resumo'));
 
 // Tratamento de erros inesperados
 app.use((err, req, res, next) => {
+  if (res.headersSent) return next(err);
   console.error(err);
-  res.status(500).json({ erro: 'Erro interno no servidor' });
+  return res.status(500).json({ erro: 'Erro interno no servidor' });
 });
 
 // Cria o usuário administrador se ele ainda não existir
 async function criarAdmin() {
   const usuario = process.env.ADMIN_USER || 'admin';
+  const senhaInicial = process.env.ADMIN_PASSWORD;
   const existe = await Usuario.findOne({ where: { usuario } });
   if (!existe) {
-    const senha_hash = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 10);
+    if (!senhaInicial) {
+      console.warn(`ADMIN_PASSWORD não definida; usuário "${usuario}" não criado automaticamente.`);
+      return;
+    }
+    const senha_hash = await bcrypt.hash(senhaInicial, 10);
     await Usuario.create({ usuario, senha_hash });
     console.log(`Usuário "${usuario}" criado`);
   }

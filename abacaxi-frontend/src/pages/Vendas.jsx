@@ -6,10 +6,10 @@ export default function Vendas() {
   const [vendas, setVendas] = useState([]);
   const [form, setForm] = useState({ data: hoje(), quantidade: '', preco_unitario: '', cliente: '' });
   const [erro, setErro] = useState('');
-  const { t, idioma } = useIdioma();
+  const { t, idioma, traduzirErro } = useIdioma();
 
   const carregar = () => api('/vendas').then(setVendas).catch((err) => setErro(err.message));
-  useEffect(() => { carregar(); }, []);
+  useEffect(() => { void carregar(); }, []);
 
   async function salvar(e) {
     e.preventDefault();
@@ -24,7 +24,7 @@ export default function Vendas() {
         },
       });
       setForm({ ...form, quantidade: '', preco_unitario: '', cliente: '' });
-      carregar();
+      await carregar();
     } catch (err) {
       setErro(err.message);
     }
@@ -34,7 +34,7 @@ export default function Vendas() {
     setErro('');
     try {
       await api(`/vendas/${id}`, { method: 'DELETE' });
-      carregar();
+      await carregar();
     } catch (err) {
       setErro(err.message);
     }
@@ -61,8 +61,9 @@ export default function Vendas() {
           <input value={form.cliente} onChange={(e) => setForm({ ...form, cliente: e.target.value })} />
         </label>
         <button type="submit">{t('vendas.salvar')}</button>
+        <p className="aviso-moeda">{t('moeda.aviso')}</p>
       </form>
-      {erro && <p className="erro">{erro}</p>}
+      {erro && <p className="erro">{traduzirErro(erro)}</p>}
 
       <div className="card tabela">
         <table>
@@ -73,7 +74,7 @@ export default function Vendas() {
               <th>{t('vendas.thQuantidade')}</th>
               <th>{t('vendas.thPreco')}</th>
               <th>{t('vendas.thTotal')}</th>
-              <th></th>
+              <th><span className="sr-only">{t('tabela.acoes')}</span></th>
             </tr>
           </thead>
           <tbody>
@@ -84,7 +85,7 @@ export default function Vendas() {
                 <td>{v.quantidade}</td>
                 <td>{formatarReais(v.preco_unitario, idioma)}</td>
                 <td>{formatarReais(v.quantidade * Number(v.preco_unitario), idioma)}</td>
-                <td><button className="excluir" onClick={() => excluir(v.id)}>{t('vendas.excluir')}</button></td>
+                <td><button type="button" className="excluir" onClick={() => excluir(v.id)}>{t('vendas.excluir')}</button></td>
               </tr>
             ))}
             {vendas.length === 0 && <tr><td colSpan="6">{t('vendas.vazio')}</td></tr>}

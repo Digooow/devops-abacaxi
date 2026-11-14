@@ -35,8 +35,14 @@ export const formatarData = (data, idioma = localStorage.getItem('idioma') || 'p
   return `${dia}/${mes}/${ano}`;
 };
 
+const LOCALES = {
+  pt: 'pt-BR',
+  en: 'en-US',
+  zh: 'zh-CN',
+};
+
 export const formatarReais = (valor, idioma = localStorage.getItem('idioma') || 'pt') => {
-  const locale = idioma === 'en' ? 'en-US' : idioma === 'zh' ? 'zh-CN' : 'pt-BR';
+  const locale = LOCALES[idioma] || LOCALES.pt;
   return Number(valor).toLocaleString(locale, { style: 'currency', currency: 'BRL' });
 };
 export const hoje = () => new Date().toISOString().slice(0, 10);

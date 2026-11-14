@@ -88,7 +88,7 @@ devops-abacaxi/
   - A variável `VITE_API_URL` é embutida **em tempo de build** pelo Vite (`import.meta.env.VITE_API_URL`).
   - Reutilize os utilitários exportados por `src/api.js`: `formatarData` (`AAAA-MM-DD` → `DD/MM/AAAA`), `formatarReais` (`BRL`) e `hoje` (`AAAA-MM-DD`).
 - **Estilização e Cenário (`src/styles.css`, `src/FundoBiquini.jsx`)**: Mantenha os estilos centralizados em `src/styles.css` seguindo o tema submarino **Fenda do Biquíni / Bob Esponja** documentado em `abacaxi-frontend/STYLEGUIDE.md`, reutilizando as classes existentes (`.card`, `.formulario`, `.tabela`, `.indicadores`, `.login`, `.erro`, `.dica`, `button.excluir`, `button.ativo`).
-- **Internacionalização (`src/i18n.jsx`)**: Suporte nativo a Português (`pt`, padrão), Inglês (`en`) e Chinês (`zh`), com seletor de bandeiras em SVG inline sem texto e persistência em `localStorage` (`idioma`).
+- **Internacionalização e Consolidação em Reais (`src/i18n.jsx`, `src/api.js`)**: Suporte nativo a Português (`pt`, padrão), Inglês (`en`) e Chinês (`zh`), com seletor de bandeiras em SVG inline sem texto e persistência em `localStorage` (`idioma`). Os valores monetários **devem consolidar e ser exibidos sempre em Reais (`R$` / `BRL`)** independentemente do idioma escolhido, e mensagens de erro da API devem passar por `traduzirErro()` para acompanhar o idioma selecionado.
 - **Cold Start no Render Free**: O Web Service gratuito do Render hiberna após 15 minutos sem uso e leva ~1 minuto para acordar (por isso `Login.jsx` exibe `.dica` durante o carregamento).
 
 ---
@@ -135,3 +135,45 @@ cd abacaxi-frontend && npm run build
 - **Verificação de mudanças**: Não há suíte de testes automatizados configurada no projeto. Ao modificar código:
   - No **frontend**, valide executando `npm run build` em `abacaxi-frontend/`.
   - No **backend**, valide a sintaxe (`node --check src/...`) e inicialização/rotas da API.
+
+---
+
+## Commits Semânticos
+
+Use commits em formato **Conventional Commits** para manter o histórico consistente e legível:
+
+```text
+<tipo>(<escopo opcional>): <descrição curta>
+```
+
+Tipos mais comuns para este projeto:
+- `feat`: nova funcionalidade
+- `fix`: correção de bug
+- `docs`: documentação ou instruções
+- `style`: ajustes visuais ou formatação
+- `refactor`: reorganização sem mudança de comportamento
+- `test`: testes
+- `chore`: tarefas de manutenção e configuração
+
+Exemplos:
+```text
+feat(api): add inventory summary endpoint
+fix(frontend): translate API errors and keep BRL currency labels
+docs: add project Copilot instructions
+style(frontend): adjust buttons and visual tokens
+```
+
+Regras:
+- A descrição deve começar com verbo no imperativo, por exemplo: `add`, `fix`, `update`, `remove`.
+- Use mensagens curtas, claras e em inglês, salvo quando a convenção do projeto exigir português.
+- Evite títulos genéricos como `Atualização`, `Melhoria`, `Teste final`.
+- Quando o commit incluir documentação ou instruções, use `docs:`.
+- Quando o commit alterar apenas organização interna sem mudar funcionalidade, prefira `refactor:` ou `chore:`.
+
+---
+
+## Regras Gerais
+
+- Em caso de dúvidas, pergunte ao invés de supor.
+- Antes de criar um commit, verifique se a alteração está pronta e se o histórico está limpo.
+- Mantenha a mensagem do commit alinhada com o tipo de alteração realizada.

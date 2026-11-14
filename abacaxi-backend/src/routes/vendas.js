@@ -11,24 +11,26 @@ router.get('/', async (req, res) => {
 // POST /vendas  { data, quantidade, preco_unitario, cliente }
 router.post('/', async (req, res) => {
   const { data, quantidade, preco_unitario, cliente } = req.body;
-  if (!data || !(quantidade > 0) || !(preco_unitario > 0)) {
+  const qtd = Number(quantidade);
+  const preco = Number(preco_unitario);
+  if (!data || !Number.isFinite(qtd) || qtd <= 0 || !Number.isFinite(preco) || preco <= 0) {
     return res.status(400).json({ erro: 'Informe data, quantidade e preço maiores que zero' });
   }
 
   const { estoque } = await calcularEstoque();
-  if (quantidade > estoque) {
+  if (qtd > estoque) {
     return res.status(400).json({ erro: `Estoque insuficiente. Disponível: ${estoque}` });
   }
 
-  const venda = await Venda.create({ data, quantidade, preco_unitario, cliente });
-  res.status(201).json(venda);
+  const venda = await Venda.create({ data, quantidade: qtd, preco_unitario: preco, cliente });
+  return res.status(201).json(venda);
 });
 
 // DELETE /vendas/:id
 router.delete('/:id', async (req, res) => {
   const apagadas = await Venda.destroy({ where: { id: req.params.id } });
   if (!apagadas) return res.status(404).json({ erro: 'Venda não encontrada' });
-  res.status(204).end();
+  return res.status(204).end();
 });
 
 module.exports = router;

@@ -1,4 +1,36 @@
 // Especificação OpenAPI 3.0 da API da Fazenda de Abacaxis
+const JSON_MIME = 'application/json';
+const TIPO_STRING = 'string';
+const TIPO_INTEIRO = 'integer';
+const TIPO_OBJETO = 'object';
+const FORMATO_DATA_HORA = 'date-time';
+const TAG_COLHEITAS = 'Colheitas';
+const TAG_VENDAS = 'Vendas';
+const DATA_EXEMPLO = '2026-11-13';
+
+const SCHEMA_ERRO = { $ref: '#/components/schemas/Erro' };
+const SEGURANCA_BEARER = [{ bearerAuth: [] }];
+
+function respostaJson(description, schema, example) {
+  return {
+    description,
+    content: {
+      [JSON_MIME]: example === undefined ? { schema } : { schema, example },
+    },
+  };
+}
+
+function corpoJson(schema) {
+  return {
+    required: true,
+    content: {
+      [JSON_MIME]: { schema },
+    },
+  };
+}
+
+const RESPOSTA_NAO_AUTORIZADO = respostaJson('Token ausente, inválido ou expirado', SCHEMA_ERRO);
+
 const swaggerSpec = {
   openapi: '3.0.3',
   info: {
@@ -11,8 +43,8 @@ const swaggerSpec = {
   tags: [
     { name: 'Status', description: 'Verificação de saúde da API' },
     { name: 'Autenticação', description: 'Login e geração de token JWT' },
-    { name: 'Colheitas', description: 'Cadastro e listagem de colheitas' },
-    { name: 'Vendas', description: 'Cadastro e listagem de vendas (com validação de estoque)' },
+    { name: TAG_COLHEITAS, description: 'Cadastro e listagem de colheitas' },
+    { name: TAG_VENDAS, description: 'Cadastro e listagem de vendas (com validação de estoque)' },
     { name: 'Resumo', description: 'Indicadores gerais do painel' },
   ],
   components: {
@@ -26,74 +58,78 @@ const swaggerSpec = {
     },
     schemas: {
       Erro: {
-        type: 'object',
+        type: TIPO_OBJETO,
         properties: {
-          erro: { type: 'string', example: 'Mensagem explicativa do erro' },
+          erro: { type: TIPO_STRING, example: 'Mensagem explicativa do erro' },
         },
       },
       LoginRequest: {
-        type: 'object',
+        type: TIPO_OBJETO,
         required: ['usuario', 'senha'],
         properties: {
-          usuario: { type: 'string', example: 'admin' },
-          senha: { type: 'string', format: 'password', example: 'admin123' },
+          usuario: { type: TIPO_STRING, example: 'admin' },
+          senha: {
+            type: TIPO_STRING,
+            format: 'password',
+            description: 'Senha configurada em ADMIN_PASSWORD',
+          },
         },
       },
       LoginResponse: {
-        type: 'object',
+        type: TIPO_OBJETO,
         properties: {
-          token: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
-          usuario: { type: 'string', example: 'admin' },
+          token: { type: TIPO_STRING, example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
+          usuario: { type: TIPO_STRING, example: 'admin' },
         },
       },
       Colheita: {
-        type: 'object',
+        type: TIPO_OBJETO,
         properties: {
-          id: { type: 'integer', example: 1 },
-          data: { type: 'string', format: 'date', example: '2026-11-13' },
-          quantidade: { type: 'integer', example: 100 },
-          observacao: { type: 'string', nullable: true, example: 'Lote da manhã' },
-          createdAt: { type: 'string', format: 'date-time' },
-          updatedAt: { type: 'string', format: 'date-time' },
+          id: { type: TIPO_INTEIRO, example: 1 },
+          data: { type: TIPO_STRING, format: 'date', example: DATA_EXEMPLO },
+          quantidade: { type: TIPO_INTEIRO, example: 100 },
+          observacao: { type: TIPO_STRING, nullable: true, example: 'Lote da manhã' },
+          createdAt: { type: TIPO_STRING, format: FORMATO_DATA_HORA },
+          updatedAt: { type: TIPO_STRING, format: FORMATO_DATA_HORA },
         },
       },
       NovaColheita: {
-        type: 'object',
+        type: TIPO_OBJETO,
         required: ['data', 'quantidade'],
         properties: {
-          data: { type: 'string', format: 'date', example: '2026-11-13' },
-          quantidade: { type: 'integer', minimum: 1, example: 100 },
-          observacao: { type: 'string', example: 'Lote da manhã' },
+          data: { type: TIPO_STRING, format: 'date', example: DATA_EXEMPLO },
+          quantidade: { type: TIPO_INTEIRO, minimum: 1, example: 100 },
+          observacao: { type: TIPO_STRING, example: 'Lote da manhã' },
         },
       },
       Venda: {
-        type: 'object',
+        type: TIPO_OBJETO,
         properties: {
-          id: { type: 'integer', example: 1 },
-          data: { type: 'string', format: 'date', example: '2026-11-13' },
-          quantidade: { type: 'integer', example: 25 },
-          preco_unitario: { type: 'string', example: '8.50' },
-          cliente: { type: 'string', nullable: true, example: 'Supermercado Tropical' },
-          createdAt: { type: 'string', format: 'date-time' },
-          updatedAt: { type: 'string', format: 'date-time' },
+          id: { type: TIPO_INTEIRO, example: 1 },
+          data: { type: TIPO_STRING, format: 'date', example: DATA_EXEMPLO },
+          quantidade: { type: TIPO_INTEIRO, example: 25 },
+          preco_unitario: { type: TIPO_STRING, example: '8.50' },
+          cliente: { type: TIPO_STRING, nullable: true, example: 'Supermercado Tropical' },
+          createdAt: { type: TIPO_STRING, format: FORMATO_DATA_HORA },
+          updatedAt: { type: TIPO_STRING, format: FORMATO_DATA_HORA },
         },
       },
       NovaVenda: {
-        type: 'object',
+        type: TIPO_OBJETO,
         required: ['data', 'quantidade', 'preco_unitario'],
         properties: {
-          data: { type: 'string', format: 'date', example: '2026-11-13' },
-          quantidade: { type: 'integer', minimum: 1, example: 25 },
+          data: { type: TIPO_STRING, format: 'date', example: DATA_EXEMPLO },
+          quantidade: { type: TIPO_INTEIRO, minimum: 1, example: 25 },
           preco_unitario: { type: 'number', minimum: 0.01, example: 8.5 },
-          cliente: { type: 'string', example: 'Supermercado Tropical' },
+          cliente: { type: TIPO_STRING, example: 'Supermercado Tropical' },
         },
       },
       Resumo: {
-        type: 'object',
+        type: TIPO_OBJETO,
         properties: {
-          colhido: { type: 'integer', example: 100 },
-          vendido: { type: 'integer', example: 25 },
-          estoque: { type: 'integer', example: 75 },
+          colhido: { type: TIPO_INTEIRO, example: 100 },
+          vendido: { type: TIPO_INTEIRO, example: 25 },
+          estoque: { type: TIPO_INTEIRO, example: 75 },
           faturamento: { type: 'number', example: 212.5 },
         },
       },
@@ -105,20 +141,13 @@ const swaggerSpec = {
         tags: ['Status'],
         summary: 'Testa se a API está no ar',
         responses: {
-          200: {
-            description: 'API operacional',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    status: { type: 'string', example: 'ok' },
-                    mensagem: { type: 'string', example: 'API da Fazenda de Abacaxis 🍍' },
-                  },
-                },
-              },
+          200: respostaJson('API operacional', {
+            type: TIPO_OBJETO,
+            properties: {
+              status: { type: TIPO_STRING, example: 'ok' },
+              mensagem: { type: TIPO_STRING, example: 'API da Fazenda de Abacaxis 🍍' },
             },
-          },
+          }),
         },
       },
     },
@@ -126,235 +155,117 @@ const swaggerSpec = {
       post: {
         tags: ['Autenticação'],
         summary: 'Autentica um usuário e retorna o token JWT (expira em 8h)',
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/LoginRequest' },
-            },
-          },
-        },
+        requestBody: corpoJson({ $ref: '#/components/schemas/LoginRequest' }),
         responses: {
-          200: {
-            description: 'Login realizado com sucesso',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/LoginResponse' },
-              },
-            },
-          },
-          401: {
-            description: 'Credenciais inválidas',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/Erro' },
-                example: { erro: 'Usuário ou senha inválidos' },
-              },
-            },
-          },
+          200: respostaJson('Login realizado com sucesso', {
+            $ref: '#/components/schemas/LoginResponse',
+          }),
+          401: respostaJson('Credenciais inválidas', SCHEMA_ERRO, {
+            erro: 'Usuário ou senha inválidos',
+          }),
         },
       },
     },
     '/colheitas': {
       get: {
-        tags: ['Colheitas'],
+        tags: [TAG_COLHEITAS],
         summary: 'Lista todas as colheitas (mais recentes primeiro)',
-        security: [{ bearerAuth: [] }],
+        security: SEGURANCA_BEARER,
         responses: {
-          200: {
-            description: 'Lista de colheitas',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'array',
-                  items: { $ref: '#/components/schemas/Colheita' },
-                },
-              },
-            },
-          },
-          401: {
-            description: 'Token ausente, inválido ou expirado',
-            content: {
-              'application/json': { schema: { $ref: '#/components/schemas/Erro' } },
-            },
-          },
+          200: respostaJson('Lista de colheitas', {
+            type: 'array',
+            items: { $ref: '#/components/schemas/Colheita' },
+          }),
+          401: RESPOSTA_NAO_AUTORIZADO,
         },
       },
       post: {
-        tags: ['Colheitas'],
+        tags: [TAG_COLHEITAS],
         summary: 'Registra uma nova colheita',
-        security: [{ bearerAuth: [] }],
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/NovaColheita' },
-            },
-          },
-        },
+        security: SEGURANCA_BEARER,
+        requestBody: corpoJson({ $ref: '#/components/schemas/NovaColheita' }),
         responses: {
-          201: {
-            description: 'Colheita registrada',
-            content: {
-              'application/json': { schema: { $ref: '#/components/schemas/Colheita' } },
-            },
-          },
-          400: {
-            description: 'Dados inválidos',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/Erro' },
-                example: { erro: 'Informe a data e uma quantidade maior que zero' },
-              },
-            },
-          },
-          401: {
-            description: 'Token ausente, inválido ou expirado',
-            content: {
-              'application/json': { schema: { $ref: '#/components/schemas/Erro' } },
-            },
-          },
+          201: respostaJson('Colheita registrada', { $ref: '#/components/schemas/Colheita' }),
+          400: respostaJson('Dados inválidos', SCHEMA_ERRO, {
+            erro: 'Informe a data e uma quantidade maior que zero',
+          }),
+          401: RESPOSTA_NAO_AUTORIZADO,
         },
       },
     },
     '/colheitas/{id}': {
       delete: {
-        tags: ['Colheitas'],
+        tags: [TAG_COLHEITAS],
         summary: 'Exclui uma colheita (bloqueado se os abacaxis já tiverem sido vendidos)',
-        security: [{ bearerAuth: [] }],
+        security: SEGURANCA_BEARER,
         parameters: [
           {
             name: 'id',
             in: 'path',
             required: true,
-            schema: { type: 'integer' },
+            schema: { type: TIPO_INTEIRO },
             description: 'ID da colheita',
           },
         ],
         responses: {
           204: { description: 'Colheita excluída com sucesso' },
-          400: {
-            description: 'Exclusão deixaria o estoque negativo',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/Erro' },
-                example: {
-                  erro: 'Não é possível excluir: os abacaxis desta colheita já foram vendidos',
-                },
-              },
-            },
-          },
-          401: {
-            description: 'Token ausente, inválido ou expirado',
-            content: {
-              'application/json': { schema: { $ref: '#/components/schemas/Erro' } },
-            },
-          },
-          404: {
-            description: 'Colheita não encontrada',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/Erro' },
-                example: { erro: 'Colheita não encontrada' },
-              },
-            },
-          },
+          400: respostaJson('Exclusão deixaria o estoque negativo', SCHEMA_ERRO, {
+            erro: 'Não é possível excluir: os abacaxis desta colheita já foram vendidos',
+          }),
+          401: RESPOSTA_NAO_AUTORIZADO,
+          404: respostaJson('Colheita não encontrada', SCHEMA_ERRO, {
+            erro: 'Colheita não encontrada',
+          }),
         },
       },
     },
     '/vendas': {
       get: {
-        tags: ['Vendas'],
+        tags: [TAG_VENDAS],
         summary: 'Lista todas as vendas (mais recentes primeiro)',
-        security: [{ bearerAuth: [] }],
+        security: SEGURANCA_BEARER,
         responses: {
-          200: {
-            description: 'Lista de vendas',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'array',
-                  items: { $ref: '#/components/schemas/Venda' },
-                },
-              },
-            },
-          },
-          401: {
-            description: 'Token ausente, inválido ou expirado',
-            content: {
-              'application/json': { schema: { $ref: '#/components/schemas/Erro' } },
-            },
-          },
+          200: respostaJson('Lista de vendas', {
+            type: 'array',
+            items: { $ref: '#/components/schemas/Venda' },
+          }),
+          401: RESPOSTA_NAO_AUTORIZADO,
         },
       },
       post: {
-        tags: ['Vendas'],
+        tags: [TAG_VENDAS],
         summary: 'Registra uma nova venda (valida se há estoque suficiente)',
-        security: [{ bearerAuth: [] }],
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/NovaVenda' },
-            },
-          },
-        },
+        security: SEGURANCA_BEARER,
+        requestBody: corpoJson({ $ref: '#/components/schemas/NovaVenda' }),
         responses: {
-          201: {
-            description: 'Venda registrada',
-            content: {
-              'application/json': { schema: { $ref: '#/components/schemas/Venda' } },
-            },
-          },
-          400: {
-            description: 'Dados inválidos ou estoque insuficiente',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/Erro' },
-                example: { erro: 'Estoque insuficiente. Disponível: 10' },
-              },
-            },
-          },
-          401: {
-            description: 'Token ausente, inválido ou expirado',
-            content: {
-              'application/json': { schema: { $ref: '#/components/schemas/Erro' } },
-            },
-          },
+          201: respostaJson('Venda registrada', { $ref: '#/components/schemas/Venda' }),
+          400: respostaJson('Dados inválidos ou estoque insuficiente', SCHEMA_ERRO, {
+            erro: 'Estoque insuficiente. Disponível: 10',
+          }),
+          401: RESPOSTA_NAO_AUTORIZADO,
         },
       },
     },
     '/vendas/{id}': {
       delete: {
-        tags: ['Vendas'],
+        tags: [TAG_VENDAS],
         summary: 'Exclui uma venda',
-        security: [{ bearerAuth: [] }],
+        security: SEGURANCA_BEARER,
         parameters: [
           {
             name: 'id',
             in: 'path',
             required: true,
-            schema: { type: 'integer' },
+            schema: { type: TIPO_INTEIRO },
             description: 'ID da venda',
           },
         ],
         responses: {
           204: { description: 'Venda excluída com sucesso' },
-          401: {
-            description: 'Token ausente, inválido ou expirado',
-            content: {
-              'application/json': { schema: { $ref: '#/components/schemas/Erro' } },
-            },
-          },
-          404: {
-            description: 'Venda não encontrada',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/Erro' },
-                example: { erro: 'Venda não encontrada' },
-              },
-            },
-          },
+          401: RESPOSTA_NAO_AUTORIZADO,
+          404: respostaJson('Venda não encontrada', SCHEMA_ERRO, {
+            erro: 'Venda não encontrada',
+          }),
         },
       },
     },
@@ -362,20 +273,10 @@ const swaggerSpec = {
       get: {
         tags: ['Resumo'],
         summary: 'Retorna totais colhidos, vendidos, estoque atual e faturamento',
-        security: [{ bearerAuth: [] }],
+        security: SEGURANCA_BEARER,
         responses: {
-          200: {
-            description: 'Totais consolidados',
-            content: {
-              'application/json': { schema: { $ref: '#/components/schemas/Resumo' } },
-            },
-          },
-          401: {
-            description: 'Token ausente, inválido ou expirado',
-            content: {
-              'application/json': { schema: { $ref: '#/components/schemas/Erro' } },
-            },
-          },
+          200: respostaJson('Totais consolidados', { $ref: '#/components/schemas/Resumo' }),
+          401: RESPOSTA_NAO_AUTORIZADO,
         },
       },
     },

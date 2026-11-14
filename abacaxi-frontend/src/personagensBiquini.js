@@ -2,6 +2,15 @@
 
 const ESCALA_PETALAS = [1.0, 0.92, 1.06, 0.94, 1.02];
 
+const COR = {
+  branco: '#ffffff',
+  preto: '#111111',
+  patrickRosa: '#ff8fa3',
+  patrickBorda: '#b5435b',
+  amareloOlho: '#fff59d',
+  lulaBorda: '#2d6355',
+};
+
 export function desenharFlorBiquini(ctx, x, y, raio, angulo, cor) {
   ctx.save();
   ctx.translate(x, y);
@@ -71,7 +80,7 @@ export function desenharPeixeCidadao(ctx, p, tempo) {
   ctx.fill();
 
   // Olho expressivo e boca
-  ctx.fillStyle = '#ffffff';
+  ctx.fillStyle = COR.branco;
   ctx.beginPath();
   ctx.arc(7.5, -2, 3.2, 0, Math.PI * 2);
   ctx.fill();
@@ -219,7 +228,7 @@ export function desenharBobEsponja(ctx, x, yChao, escala, tempo, dir, puloY = 0)
     ctx.lineTo(0, 7);
     ctx.stroke();
 
-    ctx.strokeStyle = '#ffffff';
+    ctx.strokeStyle = COR.branco;
     ctx.beginPath();
     ctx.moveTo(0, 6);
     ctx.lineTo(0, 11);
@@ -251,7 +260,7 @@ export function desenharBobEsponja(ctx, x, yChao, escala, tempo, dir, puloY = 0)
   ctx.translate(11, -30);
   ctx.rotate(Math.sin(tempo * 6) * 0.35 - 0.35 + (puloY < -4 ? -0.6 : 0));
   // Manga branca
-  ctx.fillStyle = '#ffffff';
+  ctx.fillStyle = COR.branco;
   ctx.strokeStyle = '#5c4400';
   ctx.lineWidth = 1.4;
   ctx.beginPath();
@@ -295,7 +304,7 @@ export function desenharBobEsponja(ctx, x, yChao, escala, tempo, dir, puloY = 0)
   }
 
   // Camisa branca
-  ctx.fillStyle = '#ffffff';
+  ctx.fillStyle = COR.branco;
   ctx.fillRect(-13, -25, 26, 5.2);
   ctx.strokeRect(-13, -25, 26, 5.2);
 
@@ -339,7 +348,7 @@ export function desenharBobEsponja(ctx, x, yChao, escala, tempo, dir, puloY = 0)
       ctx.stroke();
     }
 
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = COR.branco;
     ctx.strokeStyle = '#2b2b2b';
     ctx.lineWidth = 1.3;
     ctx.beginPath();
@@ -352,7 +361,7 @@ export function desenharBobEsponja(ctx, x, yChao, escala, tempo, dir, puloY = 0)
     ctx.arc(ox + 0.8, -38.5, 2.2, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = '#111111';
+    ctx.fillStyle = COR.preto;
     ctx.beginPath();
     ctx.arc(ox + 1.0, -38.5, 1.1, 0, Math.PI * 2);
     ctx.fill();
@@ -376,7 +385,7 @@ export function desenharBobEsponja(ctx, x, yChao, escala, tempo, dir, puloY = 0)
   ctx.arc(0.5, -34, 7.2, 0.2, Math.PI - 0.2);
   ctx.stroke();
 
-  ctx.fillStyle = '#ffffff';
+  ctx.fillStyle = COR.branco;
   ctx.strokeStyle = '#4a3500';
   ctx.lineWidth = 1;
   ctx.fillRect(-2.8, -29.8, 2.6, 3.2);
@@ -395,7 +404,7 @@ export function desenharBobEsponja(ctx, x, yChao, escala, tempo, dir, puloY = 0)
   ctx.save();
   ctx.translate(-13, -30);
   ctx.rotate(-passo * 0.45 + (puloY < -4 ? 0.8 : 0));
-  ctx.fillStyle = '#ffffff';
+  ctx.fillStyle = COR.branco;
   ctx.strokeStyle = '#5c4400';
   ctx.lineWidth = 1.3;
   ctx.beginPath();
@@ -433,8 +442,8 @@ export function desenharPatrick(ctx, x, yChao, escala, tempo, dir, puloY = 0) {
     ctx.save();
     ctx.translate(lado * 5.5, -12);
     ctx.rotate(passo * 0.38 * lado);
-    ctx.fillStyle = '#ff8fa3';
-    ctx.strokeStyle = '#b5435b';
+    ctx.fillStyle = COR.patrickRosa;
+    ctx.strokeStyle = COR.patrickBorda;
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(-3.5, 0);
@@ -448,8 +457,8 @@ export function desenharPatrick(ctx, x, yChao, escala, tempo, dir, puloY = 0) {
   }
 
   // Corpo/cabeça cônica de estrela-do-mar rosa
-  ctx.fillStyle = '#ff8fa3';
-  ctx.strokeStyle = '#b5435b';
+  ctx.fillStyle = COR.patrickRosa;
+  ctx.strokeStyle = COR.patrickBorda;
   ctx.lineWidth = 1.7;
   ctx.beginPath();
   ctx.moveTo(0, -54);
@@ -467,8 +476,8 @@ export function desenharPatrick(ctx, x, yChao, escala, tempo, dir, puloY = 0) {
     ctx.rotate(
       lado * (0.45 + (puloY < -4 ? -0.9 : 0)) + passo * 0.32
     );
-    ctx.fillStyle = '#ff8fa3';
-    ctx.strokeStyle = '#b5435b';
+    ctx.fillStyle = COR.patrickRosa;
+    ctx.strokeStyle = COR.patrickBorda;
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(0, -3.5);
@@ -499,7 +508,7 @@ export function desenharPatrick(ctx, x, yChao, escala, tempo, dir, puloY = 0) {
 
   // Olhos + sobrancelhas grossas em Z
   for (const ox of [-3.3, 3.3]) {
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = COR.branco;
     ctx.strokeStyle = '#2b2b2b';
     ctx.lineWidth = 1.2;
     ctx.beginPath();
@@ -507,13 +516,13 @@ export function desenharPatrick(ctx, x, yChao, escala, tempo, dir, puloY = 0) {
     ctx.fill();
     ctx.stroke();
 
-    ctx.fillStyle = '#111111';
+    ctx.fillStyle = COR.preto;
     ctx.beginPath();
     ctx.arc(ox + 0.6, -37.5, 1.2, 0, Math.PI * 2);
     ctx.fill();
 
     // Sobrancelha preta característica
-    ctx.strokeStyle = '#111111';
+    ctx.strokeStyle = COR.preto;
     ctx.lineWidth = 1.8;
     ctx.beginPath();
     ctx.moveTo(ox - 2.4, -43.2);
@@ -559,7 +568,7 @@ export function desenharGary(ctx, x, yChao, escala, tempo, dir) {
     ctx.lineTo(ox + inclinacao, -15);
     ctx.stroke();
 
-    ctx.fillStyle = '#fff59d';
+    ctx.fillStyle = COR.amareloOlho;
     ctx.strokeStyle = '#1b6d91';
     ctx.lineWidth = 1.1;
     ctx.beginPath();
@@ -638,7 +647,7 @@ export function desenharLulaMolusco(ctx, x, yChao, escala, tempo, dir) {
 
   // Cabeça grande oval turquesa
   ctx.fillStyle = '#85ccb8';
-  ctx.strokeStyle = '#2d6355';
+  ctx.strokeStyle = COR.lulaBorda;
   ctx.lineWidth = 1.6;
   ctx.beginPath();
   ctx.ellipse(0, -45, 11, 9.5, 0, 0, Math.PI * 2);
@@ -651,8 +660,8 @@ export function desenharLulaMolusco(ctx, x, yChao, escala, tempo, dir) {
 
   // Olhos amarelos semicerrados mal-humorados
   for (const ox of [-3.2, 3.2]) {
-    ctx.fillStyle = '#fff59d';
-    ctx.strokeStyle = '#2d6355';
+    ctx.fillStyle = COR.amareloOlho;
+    ctx.strokeStyle = COR.lulaBorda;
     ctx.lineWidth = 1.2;
     ctx.beginPath();
     ctx.ellipse(ox, -42.5, 3, 4, 0, 0, Math.PI * 2);
@@ -671,7 +680,7 @@ export function desenharLulaMolusco(ctx, x, yChao, escala, tempo, dir) {
 
   // Nariz grande caído
   ctx.fillStyle = '#85ccb8';
-  ctx.strokeStyle = '#2d6355';
+  ctx.strokeStyle = COR.lulaBorda;
   ctx.lineWidth = 1.4;
   ctx.beginPath();
   ctx.ellipse(1.5, -37.5, 3.4, 5.5, 0.1, 0, Math.PI * 2);
@@ -735,7 +744,7 @@ export function desenharSiriguejo(ctx, x, yChao, escala, tempo, dir) {
     ctx.ellipse(ox, -44, 2.4, 3.5, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = '#111111';
+    ctx.fillStyle = COR.preto;
     ctx.beginPath();
     ctx.arc(ox + 0.5, -44, 1.1, 0, Math.PI * 2);
     ctx.fill();
@@ -815,7 +824,7 @@ export function desenharPlankton(ctx, x, yChao, escala, tempo, dir) {
   ctx.stroke();
 
   // Único olho amarelo grande com pupila vermelha
-  ctx.fillStyle = '#fff59d';
+  ctx.fillStyle = COR.amareloOlho;
   ctx.beginPath();
   ctx.arc(0.5, -13.5, 3.1, 0, Math.PI * 2);
   ctx.fill();
@@ -862,13 +871,13 @@ export function desenharBarcomovel(ctx, v, yPista, escala, tempo) {
   ctx.beginPath();
   ctx.arc(2, -20, 5.5, 0, Math.PI * 2);
   ctx.fill();
-  ctx.fillStyle = '#ffffff';
+  ctx.fillStyle = COR.branco;
   ctx.beginPath();
   ctx.arc(4, -21, 2, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.fillStyle = 'rgba(180, 245, 255, 0.65)';
-  ctx.strokeStyle = '#ffffff';
+  ctx.strokeStyle = COR.branco;
   ctx.lineWidth = 1.8;
   ctx.beginPath();
   ctx.moveTo(8, -16);
@@ -911,7 +920,7 @@ export function desenharBarcomovel(ctx, v, yPista, escala, tempo) {
     ctx.beginPath();
     ctx.arc(0, 0, 6.5, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = COR.branco;
     ctx.beginPath();
     ctx.arc(0, 0, 3.6, 0, Math.PI * 2);
     ctx.fill();

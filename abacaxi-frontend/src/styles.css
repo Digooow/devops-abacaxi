@@ -48,16 +48,20 @@ body {
   to { transform: rotate(5deg) skewX(3deg); }
 }
 
-.alga-balanco {
-  transform-box: fill-box;
-  transform-origin: bottom center;
-  animation: balancarAlga 3.8s ease-in-out infinite alternate;
-}
-
+.alga-balanco,
 .alga-balanco-lento {
   transform-box: fill-box;
   transform-origin: bottom center;
-  animation: balancarAlga 5.2s ease-in-out infinite alternate-reverse;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .alga-balanco {
+    animation: balancarAlga 3.8s ease-in-out infinite alternate;
+  }
+
+  .alga-balanco-lento {
+    animation: balancarAlga 5.2s ease-in-out infinite alternate-reverse;
+  }
 }
 
 .conteudo-app,
@@ -66,7 +70,21 @@ body {
   z-index: 1;
 }
 
-/* ---------- Cabeçalho Estilo Fenda do Biquíni ---------- */
+/* ---------- Botões Gerais e Cabeçalho (Estilo Cartoon Bob Esponja) ---------- */
+button {
+  font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+  font-weight: 600;
+  background: linear-gradient(180deg, #ffe94d 0%, #ffbe0b 100%);
+  color: #073659;
+  border: 2px solid #fff49c;
+  border-radius: 12px;
+  padding: 9px 18px;
+  cursor: pointer;
+  font-size: 0.98rem;
+  box-shadow: 0 4px 0 #c28600, 0 6px 12px rgba(0, 0, 0, 0.16);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
 header {
   display: flex;
   flex-wrap: wrap;
@@ -97,7 +115,7 @@ header nav {
 }
 
 header nav button {
-  background: rgba(255, 255, 255, 0.14);
+  background: #064a75;
   color: #fff;
   border: 2px solid rgba(255, 255, 255, 0.55);
   border-radius: 999px;
@@ -105,15 +123,19 @@ header nav button {
   box-shadow: none;
 }
 
-header nav button:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.26);
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
-header nav button.ativo {
-  background: linear-gradient(180deg, #fff05a 0%, #ffd60a 100%);
-  color: #06375a;
-  border-color: #fff8ad;
-  box-shadow: 0 4px 0 #c28c00, 0 6px 12px rgba(0, 0, 0, 0.22);
+button.excluir {
+  background: linear-gradient(180deg, #d62839 0%, #b51a2a 100%);
+  color: #fff;
+  border-color: #ffb3c1;
+  padding: 5px 12px;
+  font-size: 0.88rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 0 #9e1924;
 }
 
 .usuario {
@@ -131,7 +153,7 @@ header nav button.ativo {
 }
 
 .usuario button {
-  background: linear-gradient(180deg, #ff85a9 0%, #f0487c 100%);
+  background: linear-gradient(180deg, #d12266 0%, #ad1450 100%);
   color: #fff;
   border: 2px solid #ffc2d4;
   border-radius: 999px;
@@ -139,55 +161,13 @@ header nav button.ativo {
   box-shadow: 0 3px 0 #a8204d;
 }
 
-/* ---------- Botões Gerais (Estilo Cartoon Bob Esponja) ---------- */
-button {
-  font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
-  font-weight: 600;
-  background: linear-gradient(180deg, #ffe94d 0%, #ffbe0b 100%);
-  color: #073659;
-  border: 2px solid #fff49c;
-  border-radius: 12px;
-  padding: 9px 18px;
-  cursor: pointer;
-  font-size: 0.98rem;
-  box-shadow: 0 4px 0 #c28600, 0 6px 12px rgba(0, 0, 0, 0.16);
-  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
-}
-
-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  filter: brightness(1.04);
-}
-
-button:active:not(:disabled) {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #c28600;
-}
-
-button:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
-
-button.excluir {
-  background: linear-gradient(180deg, #ff758f 0%, #e63946 100%);
-  color: #fff;
-  border-color: #ffb3c1;
-  padding: 5px 12px;
-  font-size: 0.88rem;
-  border-radius: 10px;
-  box-shadow: 0 3px 0 #9e1924;
-}
-
-button.excluir:active:not(:disabled) {
-  box-shadow: 0 1px 0 #9e1924;
-}
-
 /* ---------- Seletor de Bandeiras (Sem Letras) ---------- */
 .seletor-idiomas {
   display: flex;
   align-items: center;
   gap: 6px;
+  margin: 0;
+  min-width: 0;
   background: rgba(4, 45, 77, 0.35);
   padding: 4px 6px;
   border-radius: 999px;
@@ -206,9 +186,21 @@ button.btn-idioma {
   opacity: 0.65;
 }
 
-button.btn-idioma:hover:not(:disabled) {
-  opacity: 1;
-  transform: scale(1.08);
+header nav button.ativo {
+  background: linear-gradient(180deg, #fff05a 0%, #ffd60a 100%);
+  color: #06375a;
+  border-color: #fff8ad;
+  box-shadow: 0 4px 0 #c28c00, 0 6px 12px rgba(0, 0, 0, 0.22);
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #c28600;
 }
 
 button.btn-idioma.ativo {
@@ -216,6 +208,27 @@ button.btn-idioma.ativo {
   border-color: #ffe135;
   background: rgba(255, 225, 53, 0.22);
   box-shadow: 0 0 8px rgba(255, 225, 53, 0.45);
+}
+
+header nav button:hover:not(:disabled) {
+  background: #085b8f;
+}
+
+.usuario button:active:not(:disabled) {
+  box-shadow: 0 1px 0 #a8204d;
+}
+
+button.excluir:active:not(:disabled) {
+  box-shadow: 0 1px 0 #9e1924;
+}
+
+button.btn-idioma:hover:not(:disabled) {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+header nav button.ativo:hover:not(:disabled) {
+  background: linear-gradient(180deg, #fff05a 0%, #ffd60a 100%);
 }
 
 .bandeira-svg {
@@ -350,7 +363,7 @@ table {
 th,
 td {
   text-align: left;
-  padding: 10px 10px;
+  padding: 10px;
   border-bottom: 1.5px solid rgba(14, 118, 168, 0.14);
 }
 
@@ -373,13 +386,18 @@ tbody tr:hover {
 }
 
 .indicadores .card {
-  transition: transform 0.18s ease;
   position: relative;
   overflow: hidden;
 }
 
-.indicadores .card:hover {
-  transform: translateY(-4px);
+@media (prefers-reduced-motion: no-preference) {
+  .indicadores .card {
+    transition: transform 0.18s ease;
+  }
+
+  .indicadores .card:hover {
+    transform: translateY(-4px);
+  }
 }
 
 .indicadores span {
@@ -418,4 +436,29 @@ tbody tr:hover {
   font-weight: 600;
   text-align: center;
   margin: 0;
+}
+
+.aviso-moeda {
+  display: block;
+  color: #3d6b8c;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.formulario .aviso-moeda {
+  width: 100%;
+  margin: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

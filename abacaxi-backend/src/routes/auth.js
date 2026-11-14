@@ -17,7 +17,7 @@ router.post('/login', async (req, res) => {
     process.env.JWT_SECRET,
     { expiresIn: '8h' }
   );
-  res.json({ token, usuario: user.usuario });
+  return res.json({ token, usuario: user.usuario });
 });
 
 module.exports = router;

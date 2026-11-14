@@ -6,10 +6,10 @@ export default function Colheitas() {
   const [colheitas, setColheitas] = useState([]);
   const [form, setForm] = useState({ data: hoje(), quantidade: '', observacao: '' });
   const [erro, setErro] = useState('');
-  const { t, idioma } = useIdioma();
+  const { t, idioma, traduzirErro } = useIdioma();
 
   const carregar = () => api('/colheitas').then(setColheitas).catch((err) => setErro(err.message));
-  useEffect(() => { carregar(); }, []);
+  useEffect(() => { void carregar(); }, []);
 
   async function salvar(e) {
     e.preventDefault();
@@ -20,7 +20,7 @@ export default function Colheitas() {
         body: { ...form, quantidade: Number(form.quantidade) },
       });
       setForm({ ...form, quantidade: '', observacao: '' });
-      carregar();
+      await carregar();
     } catch (err) {
       setErro(err.message);
     }
@@ -30,7 +30,7 @@ export default function Colheitas() {
     setErro('');
     try {
       await api(`/colheitas/${id}`, { method: 'DELETE' });
-      carregar();
+      await carregar();
     } catch (err) {
       setErro(err.message);
     }
@@ -54,7 +54,7 @@ export default function Colheitas() {
         </label>
         <button type="submit">{t('colheitas.salvar')}</button>
       </form>
-      {erro && <p className="erro">{erro}</p>}
+      {erro && <p className="erro">{traduzirErro(erro)}</p>}
 
       <div className="card tabela">
         <table>
@@ -63,7 +63,7 @@ export default function Colheitas() {
               <th>{t('colheitas.thData')}</th>
               <th>{t('colheitas.thQuantidade')}</th>
               <th>{t('colheitas.thObservacao')}</th>
-              <th></th>
+              <th><span className="sr-only">{t('tabela.acoes')}</span></th>
             </tr>
           </thead>
           <tbody>
@@ -72,7 +72,7 @@ export default function Colheitas() {
                 <td>{formatarData(c.data, idioma)}</td>
                 <td>{c.quantidade}</td>
                 <td>{c.observacao}</td>
-                <td><button className="excluir" onClick={() => excluir(c.id)}>{t('colheitas.excluir')}</button></td>
+                <td><button type="button" className="excluir" onClick={() => excluir(c.id)}>{t('colheitas.excluir')}</button></td>
               </tr>
             ))}
             {colheitas.length === 0 && <tr><td colSpan="4">{t('colheitas.vazio')}</td></tr>}

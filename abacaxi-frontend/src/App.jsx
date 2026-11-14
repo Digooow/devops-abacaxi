@@ -6,16 +6,18 @@ import Vendas from './pages/Vendas.jsx';
 import { useIdioma, SeletorIdioma } from './i18n.jsx';
 import FundoBiquini from './FundoBiquini.jsx';
 
-const PAGINAS = ['painel', 'colheitas', 'vendas'];
+const PAGINA_PAINEL = 'painel';
+const CHAVE_USUARIO = 'usuario';
+const PAGINAS = [PAGINA_PAINEL, 'colheitas', 'vendas'];
 
 export default function App() {
-  const [usuario, setUsuario] = useState(localStorage.getItem('usuario'));
-  const [pagina, setPagina] = useState('painel');
+  const [usuario, setUsuario] = useState(localStorage.getItem(CHAVE_USUARIO));
+  const [pagina, setPagina] = useState(PAGINA_PAINEL);
   const { t } = useIdioma();
 
   function sair() {
     localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
+    localStorage.removeItem(CHAVE_USUARIO);
     setUsuario(null);
   }
 
@@ -32,6 +34,7 @@ export default function App() {
               {PAGINAS.map((chave) => (
                 <button
                   key={chave}
+                  type="button"
                   className={pagina === chave ? 'ativo' : ''}
                   onClick={() => setPagina(chave)}
                 >
@@ -40,13 +43,13 @@ export default function App() {
               ))}
             </nav>
             <SeletorIdioma />
-            <div className="usuario">
+            <div className={CHAVE_USUARIO}>
               <span className="nome-usuario">🧽 {usuario}</span>
-              <button onClick={sair}>{t('usuario.sair')}</button>
+              <button type="button" onClick={sair}>{t('usuario.sair')}</button>
             </div>
           </header>
           <main>
-            {pagina === 'painel' && <Painel />}
+            {pagina === PAGINA_PAINEL && <Painel />}
             {pagina === 'colheitas' && <Colheitas />}
             {pagina === 'vendas' && <Vendas />}
           </main>

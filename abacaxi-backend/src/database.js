@@ -11,7 +11,7 @@ if (process.env.DATABASE_URL) {
     logging: false,
     dialectOptions:
       process.env.DB_SSL === 'true'
-        ? { ssl: { require: true, rejectUnauthorized: false } }
+        ? { ssl: { require: true, rejectUnauthorized: true } }
         : {},
   });
 } else {

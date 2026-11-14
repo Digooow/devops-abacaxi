@@ -7,7 +7,7 @@ export default function Login({ onLogin }) {
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(false);
-  const { t } = useIdioma();
+  const { t, traduzirErro } = useIdioma();
 
   async function entrar(e) {
     e.preventDefault();
@@ -19,7 +19,7 @@ export default function Login({ onLogin }) {
       localStorage.setItem('usuario', dados.usuario);
       onLogin(dados.usuario);
     } catch (err) {
-      setErro(err.message === 'Failed to fetch' ? t('login.erroConexao') : err.message);
+      setErro(err.message);
     } finally {
       setCarregando(false);
     }
@@ -34,13 +34,13 @@ export default function Login({ onLogin }) {
         <h1>🍍 {t('login.titulo')}</h1>
         <label>
           {t('login.usuario')}
-          <input value={usuario} onChange={(e) => setUsuario(e.target.value)} required autoFocus />
+          <input value={usuario} onChange={(e) => setUsuario(e.target.value)} required />
         </label>
         <label>
           {t('login.senha')}
           <input type="password" value={senha} onChange={(e) => setSenha(e.target.value)} required />
         </label>
-        {erro && <p className="erro">{erro}</p>}
+        {erro && <p className="erro">{traduzirErro(erro)}</p>}
         <button type="submit" disabled={carregando}>
           {carregando ? t('login.entrando') : t('login.entrar')}
         </button>
